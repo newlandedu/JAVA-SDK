@@ -1,7 +1,7 @@
 package com.nlecloud.api;
 
 import com.google.gson.Gson;
-import com.nlecloud.http.NleHttpPost;
+import com.nlecloud.http.NleHttpGet;
 import com.nlecloud.requestEntity.PageEntity;
 import com.nlecloud.response.actuatorPageData.ActuatorPageDataResponse;
 import com.nlecloud.utils.Config;
@@ -16,12 +16,15 @@ public class ActuatorPageDataApi {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public ActuatorPageDataResponse executeApi(String gatewayTag, String apiTag, PageEntity pageEntity, String accessToken) {
-        NleHttpPost nleHttpPost = new NleHttpPost();
-        String conversionUri = UrlFormater.format(Config.getString("PageActuatorData"), gatewayTag,apiTag);
-        nleHttpPost.setUri(conversionUri);
-        nleHttpPost.setHeader("AccessToken", accessToken);
-        nleHttpPost.setEntity(pageEntity);
-        HttpResponse httpResponse = nleHttpPost.execute();
+        NleHttpGet baseHttp = new NleHttpGet();
+
+        String conversionUri = UrlFormater.format(Config.getString("PageActuatorData"), gatewayTag, apiTag);
+        String fullUri = conversionUri + String
+                .format("?StartDate=%s&EndDate=%s&PageIndex=%s&PageSize=%s", pageEntity.StartDate, pageEntity.EndDate, pageEntity.PageIndex, pageEntity.PageSize);
+        baseHttp.setUri(fullUri);
+        baseHttp.setHeader("AccessToken", accessToken);
+     // baseHttp.setProxy("192.168.0.110", 8888);
+        HttpResponse httpResponse = baseHttp.execute();
         try {
             Gson gson = new Gson();
             return gson.fromJson(EntityUtils.toString(httpResponse.getEntity()), ActuatorPageDataResponse.class);
@@ -30,7 +33,7 @@ public class ActuatorPageDataApi {
             logger.error("json error {}", e.getMessage());
         }
         try {
-            nleHttpPost.close();
+            baseHttp.close();
         } catch (Exception e) {
             logger.error("http close error: {}", e.getMessage());
         }

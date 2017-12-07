@@ -1,8 +1,10 @@
 package com.nlecloud.sdk;
 
 import com.nlecloud.api.ActuatorControlApi;
+import com.nlecloud.api.ActuatorHistoryDataApi;
 import com.nlecloud.api.ActuatorInfoApi;
 import com.nlecloud.api.ActuatorNewDataApi;
+import com.nlecloud.api.ActuatorPageDataApi;
 import com.nlecloud.api.CameraInfoApi;
 import com.nlecloud.api.GWHistoryOnOffApi;
 import com.nlecloud.api.GateWayInfoApi;
@@ -21,7 +23,9 @@ import com.nlecloud.requestEntity.LoginEntity;
 import com.nlecloud.requestEntity.MethodEntity;
 import com.nlecloud.requestEntity.PageEntity;
 import com.nlecloud.response.actuatorControl.ActuatorControlResponse;
+import com.nlecloud.response.actuatorHistoryData.ActuatorHistoryDataResponse;
 import com.nlecloud.response.actuatorNewData.ActuatorNewDataResponse;
+import com.nlecloud.response.actuatorPageData.ActuatorPageDataResponse;
 import com.nlecloud.response.cameraInfo.CameraInfoResponse;
 import com.nlecloud.response.gateWayActuatorList.GateWayActuatorListResponse;
 import com.nlecloud.response.gateWayCameraList.GateWayCameraListResponse;
@@ -185,7 +189,7 @@ public class ApiTest {
     @Test
     public void sensorHistoryData() {
         SensorHistoryDataApi sensorHistoryDataApi = new SensorHistoryDataApi();
-        MethodEntity methodEntity = new MethodEntity(3, 7);//7天前
+        MethodEntity methodEntity = new MethodEntity(5, 7);//7天前
         SensorHistoryDataResponse actuatorInfoResponse = sensorHistoryDataApi.executeApi("V97E1000000", "4A1CC88D5D5D", methodEntity, token);
         System.out.println(actuatorInfoResponse.getJsonStr());
     }
@@ -217,9 +221,9 @@ public class ApiTest {
      */
     @Test
     public void actuatorHistoryData() {
-        SensorHistoryDataApi sensorHistoryDataApi = new SensorHistoryDataApi();
-        MethodEntity methodEntity = new MethodEntity(3, 7);//7天前
-        SensorHistoryDataResponse actuatorInfoResponse = sensorHistoryDataApi.executeApi("V97E1000000", "44846F0ADB29", methodEntity, token);
+        ActuatorHistoryDataApi actuatorHistoryDataApi = new ActuatorHistoryDataApi();
+        MethodEntity methodEntity = new MethodEntity(5, 7);//7天前
+        ActuatorHistoryDataResponse actuatorInfoResponse = actuatorHistoryDataApi.executeApi("V97E1000000", "44846F0ADB29", methodEntity, token);
         System.out.println(actuatorInfoResponse.getJsonStr());
     }
 
@@ -228,9 +232,9 @@ public class ApiTest {
      */
     @Test
     public void actuatorHistoryPageData() {
-        SensorPageDataApi sensorPageDataApi = new SensorPageDataApi();
-        PageEntity pageEntity = new PageEntity("2017-1-1", "2017-11-11", 1, 10);
-        SensorPageDataResponse actuatorInfoResponse = sensorPageDataApi.executeApi("V97E1000000", "17735E88099A", pageEntity, token);
+        ActuatorPageDataApi actuatorPageDataApi = new ActuatorPageDataApi();
+        PageEntity pageEntity = new PageEntity("2017-1-1", "2017-12-12", 1, 11);
+        ActuatorPageDataResponse actuatorInfoResponse = actuatorPageDataApi.executeApi("V97E1000000", "44846F0ADB29", pageEntity, token);
         System.out.println(actuatorInfoResponse.getJsonStr());
     }
 

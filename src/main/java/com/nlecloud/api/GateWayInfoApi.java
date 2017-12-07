@@ -1,7 +1,7 @@
 package com.nlecloud.api;
 
 import com.google.gson.Gson;
-import com.nlecloud.http.NleHttpPost;
+import com.nlecloud.http.NleHttpGet;
 import com.nlecloud.response.gateWayInfo.GateWayInfoResponse;
 import com.nlecloud.utils.Config;
 import com.nlecloud.utils.UrlFormater;
@@ -15,11 +15,11 @@ public class GateWayInfoApi {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public GateWayInfoResponse executeApi(String gatewayTag, String accessToken) {
-        NleHttpPost nleHttpPost = new NleHttpPost();
+        NleHttpGet nleHttpGet = new NleHttpGet();
         String conversionUri = UrlFormater.format(Config.getString("GateWayInfo"), gatewayTag);
-        nleHttpPost.setUri(conversionUri);
-        nleHttpPost.setHeader("AccessToken", accessToken);
-        HttpResponse httpResponse = nleHttpPost.execute();
+        nleHttpGet.setUri(conversionUri);
+        nleHttpGet.setHeader("AccessToken", accessToken);
+        HttpResponse httpResponse = nleHttpGet.execute();
         try {
             Gson gson = new Gson();
             return gson.fromJson(EntityUtils.toString(httpResponse.getEntity()), GateWayInfoResponse.class);
@@ -28,7 +28,7 @@ public class GateWayInfoApi {
             logger.error("json error {}", e.getMessage());
         }
         try {
-            nleHttpPost.close();
+            nleHttpGet.close();
         } catch (Exception e) {
             logger.error("http close error: {}", e.getMessage());
         }

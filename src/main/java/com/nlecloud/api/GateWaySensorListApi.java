@@ -1,7 +1,7 @@
 package com.nlecloud.api;
 
 import com.google.gson.Gson;
-import com.nlecloud.http.NleHttpPost;
+import com.nlecloud.http.NleHttpGet;
 import com.nlecloud.response.gateWaySensorList.GateWaySensorListResponse;
 import com.nlecloud.utils.Config;
 import com.nlecloud.utils.UrlFormater;
@@ -15,11 +15,11 @@ public class GateWaySensorListApi {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public GateWaySensorListResponse executeApi(String gatewayTag, String accessToken) {
-        NleHttpPost nleHttpPost = new NleHttpPost();
+        NleHttpGet nleHttpGet = new NleHttpGet();
         String conversionUri = UrlFormater.format(Config.getString("GateWaySensorList"), gatewayTag);
-        nleHttpPost.setUri(conversionUri);
-        nleHttpPost.setHeader("AccessToken", accessToken);
-        HttpResponse httpResponse = nleHttpPost.execute();
+        nleHttpGet.setUri(conversionUri);
+        nleHttpGet.setHeader("AccessToken", accessToken);
+        HttpResponse httpResponse = nleHttpGet.execute();
         try {
             Gson gson = new Gson();
             return gson.fromJson(EntityUtils.toString(httpResponse.getEntity()), GateWaySensorListResponse.class);
@@ -28,7 +28,7 @@ public class GateWaySensorListApi {
             logger.error("json error {}", e.getMessage());
         }
         try {
-            nleHttpPost.close();
+            nleHttpGet.close();
         } catch (Exception e) {
             logger.error("http close error: {}", e.getMessage());
         }

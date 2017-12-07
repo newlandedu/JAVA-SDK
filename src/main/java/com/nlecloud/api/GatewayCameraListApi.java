@@ -1,7 +1,7 @@
 package com.nlecloud.api;
 
 import com.google.gson.Gson;
-import com.nlecloud.http.NleHttpPost;
+import com.nlecloud.http.NleHttpGet;
 import com.nlecloud.response.gateWayCameraList.GateWayCameraListResponse;
 import com.nlecloud.utils.Config;
 import com.nlecloud.utils.UrlFormater;
@@ -15,11 +15,11 @@ public class GatewayCameraListApi {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public GateWayCameraListResponse executeApi(String gatewayTag, String accessToken) {
-        NleHttpPost nleHttpPost = new NleHttpPost();
+        NleHttpGet baseHttp = new NleHttpGet();
         String conversionUri = UrlFormater.format(Config.getString("GateWayCameraList"), gatewayTag);
-        nleHttpPost.setUri(conversionUri);
-        nleHttpPost.setHeader("AccessToken", accessToken);
-        HttpResponse httpResponse = nleHttpPost.execute();
+        baseHttp.setUri(conversionUri);
+        baseHttp.setHeader("AccessToken", accessToken);
+        HttpResponse httpResponse = baseHttp.execute();
         try {
             Gson gson = new Gson();
             return gson.fromJson(EntityUtils.toString(httpResponse.getEntity()), GateWayCameraListResponse.class);
@@ -28,7 +28,7 @@ public class GatewayCameraListApi {
             logger.error("json error {}", e.getMessage());
         }
         try {
-            nleHttpPost.close();
+            baseHttp.close();
         } catch (Exception e) {
             logger.error("http close error: {}", e.getMessage());
         }

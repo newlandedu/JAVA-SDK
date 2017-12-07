@@ -1,10 +1,10 @@
 package com.nlecloud.requestEntity;
 
 public class PageEntity {
-    private String StartDate;
-    private String EndDate;
-    private int  PageIndex;
-    private int  PageSize;
+    public String StartDate;
+    public String EndDate;
+    public int  PageIndex;
+    public int  PageSize;
 
     public PageEntity(String startDate, String endDate, int pageIndex, int pageSize) {
         StartDate = startDate;
