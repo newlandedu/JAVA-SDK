@@ -33,12 +33,12 @@ public class NetWorkBusiness {
         apiService.signIn(signIn).subscribe(observer);
     }
 
-    public void getProject(String  projectId, Observer<BaseResponseEntity> callback) {
+    public void getProject(String projectId, Observer<BaseResponseEntity> callback) {
         apiService.getProject(projectId, accessToken).subscribe(callback);
     }
 
     public void getProjects(String Keyword, String ProjectTag, String NetWorkKind, String PageSize, String StartDate, String EndDate, String PageIndex,
-            Observer<BaseResponseEntity> callback) {
+                            Observer<BaseResponseEntity> callback) {
         apiService.getProjects(Keyword, ProjectTag, NetWorkKind, PageSize, StartDate, EndDate, PageIndex, accessToken).subscribe(callback);
     }
 
@@ -108,8 +108,13 @@ public class NetWorkBusiness {
         apiService.addSensorData(deviceId, datasDTO, accessToken).subscribe(callback);
     }
 
+    public void getSensorDataGrouping(String deviceId, String ApiTags, String groupBy, String Func, String StartDate, String EndDate,
+                                      Observer<BaseResponseEntity> callback) {
+        apiService.getSensorDataGrouping(deviceId, ApiTags, groupBy, Func, StartDate, EndDate, accessToken).subscribe(callback);
+    }
+
     public void getSensorData(String deviceId, String ApiTags, String Method, String TimeAgo, String StartDate, String EndDate, String Sort, String PageSize, String PageIndex,
-            Observer<BaseResponseEntity> callback) {
+                              Observer<BaseResponseEntity> callback) {
         apiService.getSensorData(deviceId, ApiTags, Method, TimeAgo, StartDate, EndDate, Sort, PageSize, PageIndex, accessToken).subscribe(callback);
     }
 

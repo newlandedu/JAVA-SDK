@@ -13,6 +13,7 @@ import com.nlecloud.sdk.responseEntity.base.BaseResponseEntity;
 
 import java.util.List;
 
+import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -39,7 +40,7 @@ public interface ApiService {
      * 查询单个项目
      */
     @GET("Projects/{projectId}")
-    Observable<BaseResponseEntity> getProject(@Path("projectId") String  projectId, @Header("AccessToken") String accessToken);
+    Observable<BaseResponseEntity> getProject(@Path("projectId") String projectId, @Header("AccessToken") String accessToken);
 
     /**
      * 模糊查询项目
@@ -47,7 +48,7 @@ public interface ApiService {
     @GET("Projects")
     Observable<BaseResponseEntity> getProjects(@Query("Keyword") String Keyword, @Query("ProjectTag") String ProjectTag, @Query("NetWorkKind") String
             NetWorkKind, @Query("PageSize") String PageSize, @Query("StartDate") String StartDate, @Query("EndDate") String EndDate, @Query("PageIndex") String PageIndex,
-            @Header("AccessToken") String accessToken);
+                                               @Header("AccessToken") String accessToken);
 
     /**
      * 查询项目所有设备的传感器
@@ -79,7 +80,8 @@ public interface ApiService {
     @GET("Devices")
     Observable<BaseResponseEntity<BasePager<Device>>> getDeviceFuzzy(@Query("Keyword") String Keyword, @Query("DeviceIds") String DeviceIds, @Query("Tag") String Tag, @Query
             ("IsOnline") String IsOnline, @Query("IsShare") String IsShare, @Query("ProjectKeyWord") String ProjectKeyWord, @Query("PageSize") String PageSize, @Query
-            ("StartDate") String StartDate, @Query("EndDate") String EndDate, @Query("PageIndex") String PageIndex, @Header("AccessToken") String accessToken);
+                                                                             ("StartDate") String StartDate, @Query("EndDate") String EndDate, @Query("PageIndex") String PageIndex,
+                                                                     @Header("AccessToken") String accessToken);
 
     /**
      * 添加1个新设备
@@ -151,13 +153,31 @@ public interface ApiService {
     @POST("devices/{deviceId}/Datas")
     Observable<BaseResponseEntity> addSensorData(@Path("deviceId") String deviceId, @Body DeviceData datasDTO, @Header("AccessToken") String accessToken);
 
+    @GET("devices/{deviceId}/Datas/Grouping")
+    Observable<BaseResponseEntity> getSensorDataGrouping(
+            @Path("deviceId") String deviceId,
+            @Query("ApiTags") String ApiTags,
+            @Query("GroupBy") String groupBy,
+            @Query("Func") String func,
+            @Query("StartDate") String StartDate,
+            @Query("EndDate") String EndDate,
+            @Header("AccessToken") String accessToken);
+
     /**
      * 查询传感数据
      */
     @GET("devices/{deviceId}/Datas")
-    Observable<BaseResponseEntity> getSensorData(@Path("deviceId") String deviceId, @Query("ApiTags") String ApiTags, @Query("Method") String Method, @Query("TimeAgo") String TimeAgo,
-            @Query("StartDate") String StartDate, @Query("EndDate") String EndDate, @Query("Sort") String Sort, @Query("PageSize") String PageSize, @Query("PageIndex") String
-            PageIndex, @Header("AccessToken") String accessToken);
+    Observable<BaseResponseEntity> getSensorData(
+            @Path("deviceId") String deviceId,
+            @Query("ApiTags") String ApiTags,
+            @Query("Method") String Method,
+            @Query("TimeAgo") String TimeAgo,
+            @Query("StartDate") String StartDate,
+            @Query("EndDate") String EndDate,
+            @Query("Sort") String Sort,
+            @Query("PageSize") String PageSize,
+            @Query("PageIndex") String PageIndex,
+            @Header("AccessToken") String accessToken);
 
     /**
      * 发送命令/控制设备

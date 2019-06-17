@@ -136,6 +136,11 @@ public class ApiTest {
     }
 
     @Test
+    public void getSensorDataGrouping() {
+        netWorkBusiness.getSensorDataGrouping("12852", "alarm", "2", "", "2018-06-19", "2018-06-21", new MyObserver());
+    }
+
+    @Test
     public void getSensorData() {
         netWorkBusiness.getSensorData("", "", "", "", "", "", "", "", "", new MyObserver());
     }
